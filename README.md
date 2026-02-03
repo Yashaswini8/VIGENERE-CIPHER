@@ -30,7 +30,63 @@ STEP-8: Repeat the above steps to generate the entire cipher text.
 
 
 ## PROGRAM
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
+void encrypt(char text[], char key[]) {
+    int i, j = 0;
+    int keyLen = strlen(key);
+
+    for (i = 0; text[i] != '\0'; i++) {
+        if (isalpha(text[i])) {
+            char t = toupper(text[i]) - 'A';
+            char k = toupper(key[j % keyLen]) - 'A';
+            text[i] = (t + k) % 26 + 'A';
+            j++;
+        }
+    }
+}
+
+void decrypt(char text[], char key[]) {
+    int i, j = 0;
+    int keyLen = strlen(key);
+
+    for (i = 0; text[i] != '\0'; i++) {
+        if (isalpha(text[i])) {
+            char t = toupper(text[i]) - 'A';
+            char k = toupper(key[j % keyLen]) - 'A';
+            text[i] = (t - k + 26) % 26 + 'A';
+            j++;
+        }
+    }
+}
+
+int main() {
+    char text[100], key[50];
+
+    printf("Enter the text: ");
+    fgets(text, sizeof(text), stdin);
+    text[strcspn(text, "\n")] = '\0';   // remove newline
+
+    printf("Enter the key: ");
+    fgets(key, sizeof(key), stdin);
+    key[strcspn(key, "\n")] = '\0';     // remove newline
+
+    encrypt(text, key);
+    printf("\nEncrypted Text: %s", text);
+
+    decrypt(text, key);
+    printf("\nDecrypted Text: %s", text);
+
+    return 0;
+}
+```
 ## OUTPUT
 
+<img width="1917" height="1079" alt="image" src="https://github.com/user-attachments/assets/43597c79-d56c-472c-a3ce-297181815109" />
+
 ## RESULT
+Thus, the Vigenère Cipher substitution technique was successfully implemented using a C program.
+The program correctly performs encryption and decryption of the given text using a keyword, and the output obtained was verified to be accurate.
